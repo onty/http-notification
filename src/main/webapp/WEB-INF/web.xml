@@ -1,13 +1,29 @@
 <?xml version="1.0"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-<context-param>
-   <param-name>contextConfigLocation</param-name>
-   <param-value>/WEB-INF/queue-servlet.xml</param-value>
-</context-param>
+   <display-name>Ericsson Notification Gateway</display-name>
 
-<listener>
-   <listener-class>
-      org.springframework.web.context.ContextLoaderListener
-   </listener-class>
-</listener>
+   <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/queue-servlet.xml</param-value>
+   </context-param>
+
+   <listener>
+      <listener-class>
+         org.springframework.web.context.ContextLoaderListener
+      </listener-class>
+   </listener>
+
+   <servlet>
+      <servlet-name>QueueSender</servlet-name>
+      <servlet-class>
+         org.springframework.web.servlet.DispatcherServlet
+      </servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+
+   <servlet-mapping>
+      <servlet-name>QueueSender</servlet-name>
+      <url-pattern>/queue/</url-pattern>
+   </servlet-mapping>
+
 </web-app>
