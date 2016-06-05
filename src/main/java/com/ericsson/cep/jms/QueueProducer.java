@@ -1,10 +1,14 @@
 package com.ericsson.cep.jms;
 
 
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.jms.*;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
 
 /**
@@ -40,7 +44,4 @@ public class QueueProducer {
         });
     }
 
-    public void receiveMessages() throws JMSException{
-        System.out.println("Getting message from queue "+ jmsTemplate.receive().getStringProperty("text"));
-    }
 }
