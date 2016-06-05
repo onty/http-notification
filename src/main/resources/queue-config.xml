@@ -26,7 +26,7 @@
         <property name="targetMethod" value="initLogging" />
         <property name="arguments">
             <list>
-                <value>conf/log4j.xml</value>
+                <value>/WEB-INF/conf/log4j.xml</value>
             </list>
         </property>
     </bean>

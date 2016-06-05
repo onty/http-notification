@@ -1,4 +1,4 @@
-package com.ericsson.cep.queue;
+package com.ericsson.cep.handler;
 
 import com.ericsson.cep.data.NotificationData;
 import com.ericsson.cep.jms.QueueProducer;
