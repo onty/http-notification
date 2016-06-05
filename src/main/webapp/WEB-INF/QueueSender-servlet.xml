@@ -7,7 +7,7 @@
    http://www.springframework.org/schema/context 
    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-   <context:component-scan base-package="com.ericsson.cep” />
+   <context:component-scan base-package="com.ericsson.cep" />
 
    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <property name="prefix" value="/WEB-INF/jsp/" />
@@ -38,7 +38,7 @@
 
            <!-- Definition of the JMS queue -->
    <bean id="defaultDestination" class="org.hornetq.jms.client.HornetQQueue">
-      <constructor-arg index="0" value="DemoQueue"></constructor-arg>
+      <constructor-arg index="0" value="DlrQueue"></constructor-arg>
 
    </bean>
    <bean id="producerTemplate" class="org.springframework.jms.core.JmsTemplate">
@@ -47,6 +47,8 @@
    </bean>
    <bean id="messageSender" class="com.ericsson.cep.jms.QueueProducer">
       <property name="jmsTemplate" ref="producerTemplate"></property>
+      <property name="message" value="EmailQueue"></property>
+
    </bean>
 
 </beans>
