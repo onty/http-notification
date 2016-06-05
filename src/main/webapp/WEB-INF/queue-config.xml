@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+   http://www.springframework.org/schema/beans     
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context 
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:component-scan base-package="com.ericsson.cep” />
+
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/jsp/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+
+   <bean name="hornetConnectionFactory" class="org.hornetq.jms.client.HornetQJMSConnectionFactory">
+      <constructor-arg name="ha" value="false"></constructor-arg>
+      <constructor-arg>
+         <bean name="transportConfiguration" class="org.hornetq.api.core.TransportConfiguration">
+            <constructor-arg
+                    value="org.hornetq.core.remoting.impl.netty.NettyConnectorFactory" />
+            <constructor-arg>
+               <map key-type="java.lang.String" value-type="java.lang.Object">
+                  <entry key="host" value="127.0.0.1" />
+                  <entry key="port" value="5445" />
+               </map>
+            </constructor-arg>
+         </bean>
+      </constructor-arg>
+   </bean>
+
+           <!-- ConnectionFactory Definition -->
+   <bean id="connectionFactory"
+         class="org.springframework.jms.connection.CachingConnectionFactory">
+      <constructor-arg ref="hornetConnectionFactory"/>
+   </bean>
+
+           <!-- Definition of the JMS queue -->
+   <bean id="defaultDestination" class="org.hornetq.jms.client.HornetQQueue">
+      <constructor-arg index="0" value="DemoQueue"></constructor-arg>
+
+   </bean>
+   <bean id="producerTemplate" class="org.springframework.jms.core.JmsTemplate">
+      <property name="connectionFactory" ref="connectionFactory" />
+      <property name="defaultDestination" ref="defaultDestination" />
+   </bean>
+   <bean id="messageSender" class="com.ericsson.cep.jms.QueueProducer">
+      <property name="jmsTemplate" ref="producerTemplate"></property>
+   </bean>
+
+</beans>

@@ -4,7 +4,7 @@
 
    <context-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/queue-servlet.xml</param-value>
+      <param-value>/WEB-INF/queue-config.xml</param-value>
    </context-param>
 
    <listener>
