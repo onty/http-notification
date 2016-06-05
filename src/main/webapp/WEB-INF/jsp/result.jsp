@@ -1,23 +1,23 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
-    <title>Spring MVC Form Handling</title>
+    <title>Notification Sender</title>
 </head>
 <body>
 
-<h2>Submitted Student Information</h2>
+<h2>Submitted Notifiation Information</h2>
 <table>
     <tr>
-        <td>Name</td>
-        <td>${name}</td>
+        <td>MSISDN</td>
+        <td>${msisdn}</td>
     </tr>
     <tr>
-        <td>Age</td>
-        <td>${age}</td>
+        <td>Email</td>
+        <td>${email}</td>
     </tr>
     <tr>
-        <td>ID</td>
-        <td>${id}</td>
+        <td>Message</td>
+        <td>${message}</td>
     </tr>
 </table>
 </body>

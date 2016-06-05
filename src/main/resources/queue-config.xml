@@ -19,6 +19,18 @@
         </constructor-arg>
     </bean>
 
+    <bean id="log4jInitialization"
+          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass"
+                  value="org.springframework.util.Log4jConfigurer" />
+        <property name="targetMethod" value="initLogging" />
+        <property name="arguments">
+            <list>
+                <value>conf/log4j.xml</value>
+            </list>
+        </property>
+    </bean>
+
     <!-- ConnectionFactory Definition -->
     <bean id="connectionFactory"
           class="org.springframework.jms.connection.CachingConnectionFactory">
