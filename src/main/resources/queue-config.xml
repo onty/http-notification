@@ -3,52 +3,36 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean name="hornetConnectionFactory" class="org.hornetq.jms.client.HornetQJMSConnectionFactory">
-        <constructor-arg name="ha" value="false"></constructor-arg>
-        <constructor-arg>
-            <bean name="transportConfiguration" class="org.hornetq.api.core.TransportConfiguration">
-                <constructor-arg
-                        value="org.hornetq.core.remoting.impl.netty.NettyConnectorFactory" />
-                <constructor-arg>
-                    <map key-type="java.lang.String" value-type="java.lang.Object">
-                        <entry key="host" value="127.0.0.1" />
-                        <entry key="port" value="5445" />
-                    </map>
-                </constructor-arg>
-            </bean>
-        </constructor-arg>
+
+    <bean name="jmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:/ConnectionFactory" />
     </bean>
 
-    <bean id="log4jInitialization"
-          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass"
-                  value="org.springframework.util.Log4jConfigurer" />
-        <property name="targetMethod" value="initLogging" />
-        <property name="arguments">
-            <list>
-                <value>/WEB-INF/conf/log4j.xml</value>
-            </list>
-        </property>
+    <bean id="jmsTransactionManager" class="org.springframework.jms.connection.JmsTransactionManager">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
     </bean>
 
-    <!-- ConnectionFactory Definition -->
-    <bean id="connectionFactory"
-          class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="hornetConnectionFactory"/>
+    <bean name="queueDestination" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:/jms/queue/EmailQueue" />
     </bean>
 
-    <!-- Definition of the JMS queue -->
-    <bean id="defaultDestination" class="org.hornetq.jms.client.HornetQQueue">
-        <constructor-arg index="0" value="DlrQueue"></constructor-arg>
+    <bean name="producerTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
+        <property name="defaultDestination" ref="queueDestination" />
+        <property name="receiveTimeout" value="3" />
+    </bean>
 
-    </bean>
-    <bean id="producerTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory" />
-        <property name="defaultDestination" ref="defaultDestination" />
-    </bean>
     <bean id="messageSender" class="com.ericsson.cep.jms.QueueProducer">
         <property name="jmsTemplate" ref="producerTemplate"></property>
-        <property name="message" value="EmailQueue"></property>
+    </bean>
 
+    <bean id="messageListener" class="com.ericsson.cep.ws.WSCaller"/>
+
+    <bean id="testMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="concurrentConsumers" value="1"/>
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+        <property name="transactionManager" ref="jmsTransactionManager" />
+        <property name="destination" ref="queueDestination"/>
+        <property name="messageListener" ref="messageListener"/>
     </bean>
 </beans>

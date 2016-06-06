@@ -6,7 +6,7 @@
 <body>
 
 <h2>Notification Information</h2>
-<form:form method="POST" action="/queue/EmailQueue">
+<form:form method="POST" action="EmailQueue">
     <table>
         <tr>
             <td><form:label path="msisdn">MSISDN</form:label></td>
@@ -17,8 +17,8 @@
             <td><form:input path="message" /></td>
         </tr>
         <tr>
-            <td><form:label path="email">Email</form:label></td>
-            <td><form:input path="email" /></td>
+            <td><form:label path="emailAddress">Email</form:label></td>
+            <td><form:input path="emailAddress" /></td>
         </tr>
         <tr>
             <td colspan="2">
