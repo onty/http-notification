@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WL5G3N0:definitions name="bsEnvioSmsServiceDefinitions" targetNamespace="http://pe/com/claro/eai/ws/postventa/enviosms" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://pe/com/claro/eai/ws/postventa/enviosms" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <schema elementFormDefault="qualified" targetNamespace="http://claro.com.pe/eai/bs/xsd/postventa/EnvioSms" xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://claro.com.pe/eai/bs/xsd/postventa/EnvioSms">
+      <complexType name="EnvioSMSRequestType">
+        <sequence>
+          <element name="idTransaccion" type="string"/>
+          <element name="ipAplicacion" type="string"/>
+          <element name="usuarioApp" type="string"/>
+          <element name="mensaje" type="string"/>
+          <element name="identificadorMAS" type="string"/>
+          <element name="msisdn" type="string"/>
+        </sequence>
+      </complexType>
+      <complexType name="EnvioSMSResponseType">
+        <sequence>
+          <element name="idTransaccion" type="string"/>
+          <element name="codigoError" type="string"/>
+          <element name="mensajeError" type="string"/>
+        </sequence>
+      </complexType>
+      <element name="EnvioSMSRequest" type="tns:EnvioSMSRequestType"/>
+      <element name="EnvioSMSResponse" type="tns:EnvioSMSResponseType"/>
+    </schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+               targetNamespace="http://pe/com/claro/eai/ws/postventa/enviosms"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://claro.com.pe/eai/bs/xsd/postventa/EnvioSms"/>
+      <xs:element name="enviarSms">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="env:EnvioSMSRequest" xmlns:env="http://claro.com.pe/eai/bs/xsd/postventa/EnvioSms"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="enviarSmsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="env:EnvioSMSResponse" xmlns:env="http://claro.com.pe/eai/bs/xsd/postventa/EnvioSms"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="enviarSms">
+    <WL5G3N0:part element="WL5G3N1:enviarSms" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="enviarSmsResponse">
+    <WL5G3N0:part element="WL5G3N1:enviarSmsResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="bsEnvioSms">
+    <WL5G3N0:operation name="enviarSms" parameterOrder="parameters">
+      <WL5G3N0:input message="WL5G3N1:enviarSms"/>
+      <WL5G3N0:output message="WL5G3N1:enviarSmsResponse"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="bsEnvioSmsServiceSoapBinding" type="WL5G3N1:bsEnvioSms">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="enviarSms">
+      <WL5G3N2:operation style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body parts="parameters" use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body parts="parameters" use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="bsEnvioSmsService">
+    <WL5G3N0:port binding="WL5G3N1:bsEnvioSmsServiceSoapBinding" name="bsEnvioSmsSoapPort">
+      <WL5G3N2:address location="http://172.19.96.228:7903/Messaging_Services/SMSC/Transaction/proxy_services/EnvioSms"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

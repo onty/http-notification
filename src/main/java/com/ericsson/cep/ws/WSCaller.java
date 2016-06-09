@@ -3,6 +3,7 @@ package com.ericsson.cep.ws;
 
 import org.apache.log4j.Logger;
 import org.springframework.jms.listener.SessionAwareMessageListener;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;

@@ -5,7 +5,6 @@ import com.ericsson.cep.jms.QueueProducer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,7 +43,7 @@ public class PostQueue {
 */
 
 
-    @RequestMapping(value = "/EmailQueue", method = RequestMethod.POST, headers = "Content-Type=text/plain")
+    @RequestMapping(value = "/EmailQueue", method = RequestMethod.POST, headers = {"Content-Type=text/plain,application/x-www-form-urlencoded"})
     public String emailQueue(@RequestBody String payload) {
         log.info("Queue added containing "+payload);
         producer.setContent(payload);
